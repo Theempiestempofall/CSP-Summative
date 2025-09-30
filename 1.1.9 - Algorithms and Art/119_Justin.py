@@ -1,9 +1,7 @@
 import turtle as trtl
 import random
-#ask the user questions
-#set the answers to varibles 
-#make turtle draw a shape the changes depending on what the user said
-shape_color = input ("What is you favorite color?")
+
+shape_color = input("What is your favorite color?")
 shape_num_edges = input ("Pick a number between 1 and 10")
 shape_edges_list = [
     (0, 0),
@@ -17,10 +15,12 @@ shape_edges_list = [
     (10, -40), 
     (0, -50), 
     (-50, 0)]
-for i in range (int(shape_num_edges)):
+# remove random edges from the list to create a unique shape
+for i in range(int(shape_num_edges)):
     shape_edges_list.remove(random.choice(shape_edges_list))
 shape_edges_tuple = tuple(shape_edges_list)
-trtl.addshape( "polygon", shape_edges_tuple )
+# create custom polygon turtle shape
+trtl.addshape("polygon", shape_edges_tuple)
 
 pg = trtl.Turtle(shape = "polygon")
 pg.color(shape_color)
