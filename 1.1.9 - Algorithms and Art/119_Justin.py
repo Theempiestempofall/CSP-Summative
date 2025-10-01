@@ -2,8 +2,14 @@ import turtle as trtl
 import random
 # get user input for shape color and number of edges
 trtl.textinput("Fun Time","Are you ready to create a shape?")
+acceptable_colors = ['red', 'blue', 'green', 'yellow', 'orange', 'purple', 'pink', 'black', 'white', 'gray', 'brown']
 shape_color = trtl.textinput("Color","What is your favorite color?")
-shape_num_edges = trtl.textinput ("Number","Pick a number between 1 and 10")
+while shape_color is None or shape_color not in acceptable_colors:
+    shape_color = trtl.textinput("Color", "Please enter a valid color")
+shape_num_edges = trtl.textinput("Number", "Pick an integer between 1 and 10 (inclusive)")
+while shape_num_edges is None or not shape_num_edges.isdigit() or not (1 <= int(shape_num_edges) <= 10):
+    shape_num_edges = trtl.textinput("Number", "Please pick an integer between 1 and 10 (inclusive)")
+
 shape_edges_list = [
     (0, 0),
     (0, 50), 
