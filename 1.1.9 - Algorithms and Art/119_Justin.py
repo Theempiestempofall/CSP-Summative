@@ -1,7 +1,8 @@
 import turtle as trtl
 import random
 # get user input for shape color and number of edges
-trtl.textinput("Fun Time","Are you ready to create a shape?")
+if (trtl.textinput("Fun Time","Are you ready to create a shape? (hint: 67)") == "67"):
+    trtl.textinput("6 7","six seven")
 acceptable_colors = ['red', 'blue', 'green', 'yellow', 'orange', 'purple', 'pink', 'black', 'white', 'gray', 'brown']
 shape_color = trtl.textinput("Color","What is your favorite color?")
 while shape_color is None or shape_color not in acceptable_colors:
