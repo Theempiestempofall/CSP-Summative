@@ -22,7 +22,7 @@ wn = trtl.Screen()
 wn.bgcolor("#3fa652")
 money = 1000
 bet = 0
-timer = 3
+timer = 0
 timer_up = False
 #---------Function Setup---------------
 # Display money
@@ -40,15 +40,20 @@ def place_bet():
 #Spinning the slots
 def spin_slots():
     global money, bet, timer, timer_up
-    timer = 3
+    timer = 0
     print("Slots are spinning")
-    if timer_up == False:
-        Slot1Pen.color(Possible_colors[rand.randint(0,len(Possible_colors)-1)])
-        Slot1Pen.shape(Possible_shapes[rand.randint(0,len(Possible_shapes)-1)])
-        Slot2Pen.color(Possible_colors[rand.randint(0,len(Possible_colors)-1)])
-        Slot2Pen.shape(Possible_shapes[rand.randint(0,len(Possible_shapes)-1)])
-        Slot3Pen.color(Possible_colors[rand.randint(0,len(Possible_colors)-1)])
-        Slot3Pen.shape(Possible_shapes[rand.randint(0,len(Possible_shapes)-1)])
+    while timer_up == False:
+        wn.ontimer(countdown, 1000)# I think 1000 is a second but idk
+        if timer <= 1:
+            Slot1Pen.color(Possible_colors[rand.randint(0,len(Possible_colors)-1)])
+            Slot1Pen.shape(Possible_shapes[rand.randint(0,len(Possible_shapes)-1)])
+        if timer <= 2:
+            Slot2Pen.color(Possible_colors[rand.randint(0,len(Possible_colors)-1)])
+            Slot2Pen.shape(Possible_shapes[rand.randint(0,len(Possible_shapes)-1)])
+        if timer <= 3:
+            Slot3Pen.color(Possible_colors[rand.randint(0,len(Possible_colors)-1)])
+            Slot3Pen.shape(Possible_shapes[rand.randint(0,len(Possible_shapes)-1)])
+
     check_win()
     update_money_display()
 #Check if you win
@@ -71,19 +76,23 @@ def check_win():
         wn.bye()
 def countdown():# making it look like a slot machine roling down
     global timer, timer_up
-    if timer <= 0:
+    if timer >= 3:
         print("Time is stopped")
         timer_up = True
     else:
         print("time is moving")
-        timer -= 1
+        timer += 1
+def check_key(key):
+    if "b" == key:
+        place_bet()
+    elif "s" == key:
+        spin_slots
+    elif "q" == key:
+        wn.bye
 #---------Game Loop---------------
-spin_slots()
-
-
-wn.onkeypress(place_bet, "b")
-wn.onkeypress(spin_slots, "r")
-wn.ontimer(countdown, 1000)# I think 1000 is a second but idk
+    
+for letter in "qwertyuiopasdfghjklzxcvbnm":
+  wn.onkeypress(lambda l=letter: check_key(l), letter)
 
 wn.listen()
 wn.mainloop()
