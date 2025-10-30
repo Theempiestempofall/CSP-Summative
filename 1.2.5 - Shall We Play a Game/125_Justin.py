@@ -53,7 +53,7 @@ Possible_shapes = ["circle", "square", "triangle", "turtle", "arrow", "classic"]
 wn = trtl.Screen()
 wn.bgcolor("#3fa652")
 money = 1000
-bet = 0
+bet = 1
 timer = 0
 timer_up = True
 i = 1
@@ -81,7 +81,7 @@ def update_money_display():
 def reset_bet():
     global bet
     print("bet is being reset")
-    bet = 0
+    bet = 1
     update_bet_display()
 def update_bet_display():
     bet_writer.clear()
@@ -127,19 +127,19 @@ def check_win():
     if Slot1Pen.shape() == Slot2Pen.shape() == Slot3Pen.shape() and Slot1Pen.color() == Slot2Pen.color() == Slot3Pen.color():
         money = money + math.ceil(bet * 2)
         win_writer.clear()
-        win_writer.write("JACKPOT!", align='center', font=("Arial", 40, "normal"))
+        win_writer.write("JACKPOT!\n$" + str(math.ceil(bet * 2)) + " Gained, Awesome.\n XD", align='center', font=("Arial", 40, "normal"))
     elif Slot1Pen.shape() == Slot2Pen.shape() == Slot3Pen.shape() or Slot1Pen.color() == Slot2Pen.color() == Slot3Pen.color():
         money = money + math.ceil(bet * 1)
         win_writer.clear()
-        win_writer.write("BIG WIN!", align='center', font=("Arial", 40, "normal"))
+        win_writer.write("BIG WIN!\n$" + str(math.ceil(bet * 1)) + " money, nice.\n :()", align='center', font=("Arial", 40, "normal"))
     elif Slot1Pen.shape() == Slot2Pen.shape() or Slot2Pen.shape() == Slot3Pen.shape() or Slot1Pen.shape() == Slot3Pen.shape() or Slot1Pen.color() == Slot2Pen.color() or Slot2Pen.color() == Slot3Pen.color() or Slot1Pen.color() == Slot3Pen.color():
         money = money + math.ceil(bet * 0.2)
         win_writer.clear()
-        win_writer.write("WIN!", align='center', font=("Arial", 40, "normal"))
+        win_writer.write("WIN!\n$" + str(math.ceil(bet * 0.2)) + " money.\n :)", align='center', font=("Arial", 40, "normal"))
     else:
         money = money - bet
         win_writer.clear()
-        win_writer.write("LOSE!", align='center', font=("Arial", 40, "normal"))
+        win_writer.write("LOSE!\n$" + str(bet) + " all gone.\n :(", align='center', font=("Arial", 40, "normal"))
     if money == 0:# Ending the program if you have no money
         timer_up = False
         win_writer.clear()
