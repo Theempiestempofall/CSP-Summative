@@ -31,7 +31,6 @@ bet_turtle250.color("purple")
 bet_turtle250.teleport(175, 250)
 bet_turtle250.write("$250", font=("Arial", 20, "normal"))
 bet_turtle_all_in = trtl.Turtle(shape="turtle")
-bet_turtle_all_in.color("orange")
 bet_turtle_all_in.teleport(275, 250)
 bet_turtle_all_in.write("ALL IN", font=("Arial", 20, "normal"))
 bet_writer = trtl.Turtle(visible=False)
@@ -58,7 +57,21 @@ bet = 0
 timer = 0
 timer_up = True
 i = 1
-trtl.textinput
+fav_color = trtl.textinput("What is your favorite color?", "Type your favorite color here:")
+# Keep asking until turtle accepts the color; fallback to 'orange' if user cancels
+while True:
+    if fav_color is None:
+        fav_color = "orange"
+        Possible_colors.append(fav_color)
+        bet_turtle_all_in.color(fav_color)
+        break
+    try:
+        bet_turtle_all_in.color(fav_color)
+        Possible_colors.append(fav_color)
+        break
+    except trtl.TurtleGraphicsError:
+        fav_color = trtl.textinput("Invalid color, please enter a valid color:", "Type your favorite color here:")
+
 #---------Function Setup---------------
 # Display money
 def update_money_display():
