@@ -58,6 +58,7 @@ timer = 0
 timer_up = True
 i = 1
 fav_color = trtl.textinput("What is your favorite color?", "Type your favorite color here:")
+spinning = False
 #error handling for the fav color input
 while True:
     if fav_color is None:
@@ -96,8 +97,9 @@ def place_bet(num_increase):
     wn.update()
 #Spinning the slots
 def spin_slots():
-    global money, bet, timer_up
+    global money, bet, timer_up, spinning
     timer_up = False
+    spinning = True
     print("Slots are spinning")
     wn.ontimer(end_timer, 1000)# I think 1000 is a second but idk
     while timer_up == False:
@@ -111,6 +113,7 @@ def spin_slots():
     update_money_display()
     if bet > money:
         reset_bet()
+    spinning = False
 # Ending the timer
     
 def end_timer():
@@ -144,11 +147,11 @@ def check_win():
         wn.ontimer(wn.bye, 3000)
 
 def check_key(key):
-    global timer_up
+    global timer_up, spinning
     wn.tracer(True)
     key = key.lower()
     if key == "s":
-        if timer_up == True:
+        if spinning == False:
             print(key+" is pressed")
             spin_slots() 
     if key == "q":
