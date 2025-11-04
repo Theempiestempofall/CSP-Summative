@@ -53,12 +53,12 @@ Possible_shapes = ["circle", "square", "triangle", "turtle", "arrow", "classic"]
 wn = trtl.Screen()
 wn.bgcolor("#3fa652")
 money = 1000
-bet = 1
+bet = 0
 timer = 0
 timer_up = True
 i = 1
 fav_color = trtl.textinput("What is your favorite color?", "Type your favorite color here:")
-# Keep asking until turtle accepts the color; fallback to 'orange' if user cancels
+#error handling for the fav color input
 while True:
     if fav_color is None:
         fav_color = "orange"
@@ -71,7 +71,8 @@ while True:
         break
     except trtl.TurtleGraphicsError:
         fav_color = trtl.textinput("Invalid color, please enter a valid color:", "Type your favorite color here:")
-
+if fav_color == "cyan":
+    money += 9000
 #---------Function Setup---------------
 # Display money
 def update_money_display():
@@ -81,7 +82,7 @@ def update_money_display():
 def reset_bet():
     global bet
     print("bet is being reset")
-    bet = 1
+    bet = 0
     update_bet_display()
 def update_bet_display():
     bet_writer.clear()
@@ -95,25 +96,21 @@ def place_bet(num_increase):
     wn.update()
 #Spinning the slots
 def spin_slots():
-
     global money, bet, timer_up
-
-    
     timer_up = False
+    print("Slots are spinning")
     wn.ontimer(end_timer, 1000)# I think 1000 is a second but idk
     while timer_up == False:
-        print("Slots are spinning")
         Slot1Pen.color(Possible_colors[rand.randint(0,len(Possible_colors)-1)])
         Slot1Pen.shape(Possible_shapes[rand.randint(0,len(Possible_shapes)-1)])
         Slot2Pen.color(Possible_colors[rand.randint(0,len(Possible_colors)-1)])
         Slot2Pen.shape(Possible_shapes[rand.randint(0,len(Possible_shapes)-1)])
         Slot3Pen.color(Possible_colors[rand.randint(0,len(Possible_colors)-1)])
         Slot3Pen.shape(Possible_shapes[rand.randint(0,len(Possible_shapes)-1)])
-
-
     check_win()
     update_money_display()
-    reset_bet()
+    if bet > money:
+        reset_bet()
 # Ending the timer
     
 def end_timer():
@@ -125,9 +122,9 @@ def check_win():
     global money, bet, timer_up
     print("checking win")
     if Slot1Pen.shape() == Slot2Pen.shape() == Slot3Pen.shape() and Slot1Pen.color() == Slot2Pen.color() == Slot3Pen.color():
-        money = money + math.ceil(bet * 2)
+        money = money + math.ceil(bet * 1000)
         win_writer.clear()
-        win_writer.write("JACKPOT!\n$" + str(math.ceil(bet * 2)) + " Gained, Awesome.\n XD", align='center', font=("Arial", 40, "normal"))
+        win_writer.write("JACKPOT!\n$" + str(math.ceil(bet * 1000)) + " Gained, Awesome.\n XD", align='center', font=("Arial", 40, "normal"))
     elif Slot1Pen.shape() == Slot2Pen.shape() == Slot3Pen.shape() or Slot1Pen.color() == Slot2Pen.color() == Slot3Pen.color():
         money = money + math.ceil(bet * 1)
         win_writer.clear()
@@ -149,6 +146,7 @@ def check_win():
 def check_key(key):
     global timer_up
     wn.tracer(True)
+    key = key.lower()
     if key == "s":
         if timer_up == True:
             print(key+" is pressed")
@@ -161,7 +159,7 @@ def check_key(key):
 update_bet_display()
 update_money_display()
 
-for letter in "qsb":
+for letter in "qsQS":
   wn.onkeypress(lambda l=letter: check_key(l), letter)
 bet_turtle_reset.onclick(lambda x, y: reset_bet())
 bet_turtle1.onclick(lambda x, y: place_bet(1))
